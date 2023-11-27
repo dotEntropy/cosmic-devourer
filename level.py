@@ -8,7 +8,8 @@ import sys
 
 from devourer import Devourer
 from sprites.food import Food
-from sprites.segment import Segment
+from assets.assets import get_asset_png
+
 import convert
 from config import *
 
@@ -16,25 +17,18 @@ from config import *
 class Level:
     def __init__(self) -> None:
         self.screen = pygame.display.get_surface()
-        self.devourer = Devourer()
-        self._setup_sprites()
-    
-    def _setup_sprites(self) -> None:
         self.food_group = Group()
         self.segment_group = Group()
-        self._spawn_food()
+        self._setup_entites()
     
-    def _spawn_food(self) -> None: 
-        x_tile = randrange(N_TILES_X)
-        y_tile = randrange(N_TILES_Y)
-        self.food = Food(convert.get_tile_pos(x_tile, y_tile))
-        self.food_group.add(self.food)
+    def _setup_entites(self) -> None:
+        self.devourer = Devourer(self.segment_group)
+        self._spawn_food()
 
     def run(self, dt: float) -> None:
-        print(self.devourer.direction)
         self._handle_events()
-        self._update_sprite_groups(dt)
-        self._draw_sprite_groups()
+        self._update()
+        self._draw()
 
     def _handle_events(self) -> None:
         for event in pygame.event.get():
@@ -51,11 +45,26 @@ class Level:
             pygame.quit()
             sys.exit()
 
-    def _update_sprite_groups(self, dt: float) -> None:
-        self.food_group.update(dt)
-        self.segment_group.update(dt)
+    def _update(self) -> None:
+        self._check_if_devoured()
+        self.devourer.update()
+    
+    def _check_if_devoured(self) -> None:
+        devourer = self.devourer
+        food_sprites = self.food_group.sprites()
+        for food in food_sprites:
+            food: Food
+            if devourer.head_pos != food.pos: return
+            food.relocate()
+            self.devourer.devour_sfx.play()
+            self.devourer.segments_pending += 2
+    
+    def _spawn_food(self) -> None: 
+        tile_pos = Vector2(randrange(N_TILES_X), randrange(N_TILES_Y))
+        self.food = Food(convert.to_real_pos(tile_pos))
+        self.food_group.add(self.food)
 
-    def _draw_sprite_groups(self) -> None:
+    def _draw(self) -> None:
         self.screen.fill(BG_COLOR)
         self.food_group.draw(self.screen)
         self.segment_group.draw(self.screen)

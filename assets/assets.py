@@ -1,5 +1,6 @@
 import pygame
 from pygame import Surface
+from pygame.mixer import Sound
 import pathlib
 
 
@@ -27,5 +28,8 @@ def modify_image(image: Surface, angle_deg: float=0, scale: float=1) -> Surface:
 ASSET_DIR = pathlib.Path(__file__).parent
 
 
-def get_asset(file_name: str) -> Surface:
+def get_asset_png(file_name: str) -> Surface:
     return load_image(ASSET_DIR / file_name)
+
+def get_asset_wav(file_name: str) -> Sound:
+    return Sound(ASSET_DIR / file_name)
