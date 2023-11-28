@@ -66,5 +66,5 @@ class Level:
 
     def _draw(self) -> None:
         self.screen.fill(BG_COLOR)
-        self.food_group.draw(self.screen)
         self.segment_group.draw(self.screen)
+        self.food_group.draw(self.screen)
