@@ -57,7 +57,7 @@ class Level:
             if devourer.head_pos != food.pos: return
             food.relocate()
             self.devourer.devour_sfx.play()
-            self.devourer.segments_pending += 2
+            self.devourer.segments_pending += 1
     
     def _spawn_food(self) -> None: 
         tile_pos = Vector2(randrange(n_tiles_x), randrange(n_tiles_y))
