@@ -23,6 +23,6 @@ class Food(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=self.pos)
 
     def relocate(self) -> None:
-        tile_pos = Vector2(randrange(N_TILES_X), randrange(N_TILES_Y))
+        tile_pos = Vector2(randrange(n_tiles_x), randrange(n_tiles_y))
         self.pos = Vector2(convert.to_real_pos(tile_pos))
         self.update_image()

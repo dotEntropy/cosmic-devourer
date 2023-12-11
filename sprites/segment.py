@@ -11,22 +11,24 @@ from config import *
 class Segment(pygame.sprite.Sprite):
     def __init__(self, pos: Vector2) -> None:
         super().__init__()
-        self.is_head = False
+        self.second_segment = False
         self.pos = pos.copy()
         self.angle_deg = 180
-        self.head_image = get_asset_png("head.png")
-        self.body_image = get_asset_png("body.png")
-        self.update_image()
+        self.asset_dict = {
+            "clockwise-body": get_asset_png("clockwise-body.png"),
+            "counter-clockwise-body": get_asset_png("counter-clockwise-body.png"),
+            "head": get_asset_png("head.png"), 
+            "body": get_asset_png("body.png"),
+            "tail": get_asset_png("tail.png")
+            }
 
     def move_to_head(self, pos: Vector2) -> None:
-        self.is_head = True
         self.pos = pos.copy()
         self.rect.topleft = self.pos
     
-    def update_image(self, direction: Vector2=None) -> None:
+    def update_image(self, segment_type: str, direction: Vector2=None) -> None:
         self._update_angle_deg(direction)
-        self.segment_image = self.head_image if self.is_head else self.body_image
-        self.image = modify_image(self.segment_image, angle_deg=self.angle_deg)
+        self.image = modify_image(self.asset_dict[segment_type], angle_deg=self.angle_deg)
         self.rect = self.image.get_rect(topleft=self.pos)
 
     def _update_angle_deg(self, direction: Vector2) -> None:

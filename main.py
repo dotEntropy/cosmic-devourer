@@ -1,4 +1,4 @@
-import pygame 
+import pygame, os
 
 from level import Level
 
@@ -8,6 +8,7 @@ from config import *
 
 class Game:
     def __init__(self) -> None:
+        os.system("cls")
         pygame.init()
         pygame.display.set_mode([WIDTH, HEIGHT])
         pygame.display.set_caption("Cosmic Devourer")

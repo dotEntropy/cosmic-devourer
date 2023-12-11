@@ -1,7 +1,9 @@
-TILE_SIZE = 50
-N_TILES_X = 24
-N_TILES_Y = 16
-WIDTH = TILE_SIZE * N_TILES_X
-HEIGHT = TILE_SIZE * N_TILES_Y
-FPS = 60 
+SPRITE_SIZE = 50
+sprite_scale = 0.5
+tile_size = SPRITE_SIZE * sprite_scale
+n_tiles_x = 50
+n_tiles_y = 30
+WIDTH = tile_size * n_tiles_x
+HEIGHT = tile_size * n_tiles_y
+FPS = 0
 BG_COLOR = "black"

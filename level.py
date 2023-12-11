@@ -60,7 +60,7 @@ class Level:
             self.devourer.segments_pending += 2
     
     def _spawn_food(self) -> None: 
-        tile_pos = Vector2(randrange(N_TILES_X), randrange(N_TILES_Y))
+        tile_pos = Vector2(randrange(n_tiles_x), randrange(n_tiles_y))
         self.food = Food(convert.to_real_pos(tile_pos))
         self.food_group.add(self.food)
 
