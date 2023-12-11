@@ -2,9 +2,9 @@ import pygame
 from pygame.math import Vector2
 from random import choice, randrange
 
+from config import *
 from assets.assets import get_asset_png
 import convert
-from config import *
 
 
 class Food(pygame.sprite.Sprite):

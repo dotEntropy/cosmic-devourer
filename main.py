@@ -4,7 +4,7 @@ from level import Level
 
 from config import *
 from assets.assets import get_asset_png
-from debug_text import DebugText
+
 
 class Game:
     def __init__(self) -> None:
@@ -15,7 +15,6 @@ class Game:
         pygame.display.set_icon(get_asset_png("icon.png"))
         self.level = Level()
         self.clock = pygame.time.Clock()
-        self.debug = DebugText()
     
     def run(self) -> None:
         pre_time = time.time()

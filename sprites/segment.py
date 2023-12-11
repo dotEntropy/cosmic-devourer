@@ -1,7 +1,5 @@
-from typing import Any
 import pygame
 from pygame.math import Vector2
-from random import choice
 
 from assets.assets import get_asset_png
 from assets.assets import modify_image

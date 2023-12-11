@@ -8,10 +8,9 @@ import sys
 
 from devourer import Devourer
 from sprites.food import Food
-from assets.assets import get_asset_png
 
-import convert
 from config import *
+import convert
 
 
 class Level:
