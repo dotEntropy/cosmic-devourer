@@ -14,6 +14,8 @@ class Button(Sprite, Animation):
             func: callable,
             func_kwargs: dict={},
             scale: float=1.0,
+            angle_deg: float=0,
+            pos_type: str='center',
             is_held: bool=False,
             is_released_on_unhovered: bool=True,
             is_toggle: bool=True,
@@ -38,6 +40,8 @@ class Button(Sprite, Animation):
         self.func_kwargs = func_kwargs
         self.ORIGIN_POS = pos.copy()
         self.ORIGIN_SCALE = scale
+        self.ORIGIN_ANGLE_DEG = angle_deg
+        self.ORIGIN_POS_TYPE = pos_type
         self.is_toggle = False if is_held else is_toggle
         self.is_held = is_held
         self.is_released_on_unhovered = is_released_on_unhovered
@@ -85,6 +89,8 @@ class Button(Sprite, Animation):
     def _overrides(self) -> None:
         self.pos = self.ORIGIN_POS.copy()
         self.scale = self.ORIGIN_SCALE
+        self.angle_deg = self.ORIGIN_ANGLE_DEG
+        self.pos_type = self.ORIGIN_POS_TYPE
     
     def mouse_held(self, buttons: tuple[int]) -> None:
         self.is_m1_held = buttons[0]

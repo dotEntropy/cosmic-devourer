@@ -6,6 +6,7 @@ import importlib
 import colorama
 from pygame.event import Event
 from src.variables import GameVars
+from src.constants import DEFAULT_STATE
 from src.states.parent import State
 
 
@@ -31,9 +32,9 @@ class StateRunner:
             print(f'{colorama.Fore.RED}State "{state}" must have a setup function!')
 
     def _load_default_state(self) -> None:
-        GameVars.active_state = GameVars.states.get('default')
+        GameVars.active_state = GameVars.states.get(DEFAULT_STATE)
         if GameVars.active_state is None:
-            print(f'{colorama.Fore.RED}There is no "default" state!\nTerminating...')
+            print(f'{colorama.Fore.RED}A default state "{DEFAULT_STATE}" cannot be found!\nTerminating...')
             exit()
 
     def run(self, dt: float) -> None:

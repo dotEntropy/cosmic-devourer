@@ -1,6 +1,7 @@
 import pygame
 import json
 import colorama
+from pygame.surface import Surface
 from pygame.math import Vector2
 from src.loader import get_gfx
 
@@ -10,19 +11,17 @@ class Graphics:
         self.pos = Vector2()
         self.scale = 1.0
         self.angle_deg = 0
+        self.pos_type = 'center'
         self._overrides()
     
-    def _overrides(self) -> None:
-        ...
+    def _overrides(self) -> None: ...
     
-    def _update_sprite(self, image: pygame.Surface) -> None:
-        if self.angle_deg:
-            pygame.transform.rotate(image, self.angle_deg)
-        if self.scale != 1.0:
-            size = (image.get_width() * self.scale, image.get_height() * self.scale)
-            image = pygame.transform.scale(image, size)
+    def _update_sprite(self, image: Surface) -> None:
+        scale_vector = (image.get_width() * self.scale, image.get_height() * self.scale)
+        image = pygame.transform.scale(image, scale_vector)
+        image = pygame.transform.rotate(image, self.angle_deg)
         self.image = image
-        self.rect = self.image.get_rect(midbottom=self.pos)
+        self.rect = self.image.get_rect(**{self.pos_type:self.pos})
         self.mask = pygame.mask.from_surface(self.image)
 
 
@@ -34,7 +33,7 @@ class Controls:
 
 
 class Animation(Graphics, Controls):
-    def __init__(self, config_id: str, asset_id: str, fps: int, reset_idx: bool=True) -> None:
+    def __init__(self, config_id: str, asset_id: str, fps: int=14, reset_idx: bool=True) -> None:
         Graphics.__init__(self)
         self._reset_frame_idx()
         self.configs = {}
@@ -123,10 +122,21 @@ class Animation(Graphics, Controls):
             return
         if self.loop_count == self.loops:
             self._switch_config(self.config_id_fallback, is_fallback=True)
-    
+
     def update_scale(self, scale: float) -> None:
-        self.scale = scale
-        self._update_image()
+        if scale != self.scale:
+            self.scale = scale
+            self._update_image()
+    
+    def update_angle(self, angle_deg: int | float) -> None:
+        if angle_deg != self.angle_deg:
+            self.angle_deg = angle_deg
+            self._update_image()
+    
+    def update_pos_type(self, pos_type: str) -> None:
+        if pos_type != self.pos_type:
+            self.pos_type = pos_type
+            self._update_image()
     
     def _update_image(self) -> None:
         if image := self.frames.get(f'{self.asset_id}-{self.current_frame_idx}'):
