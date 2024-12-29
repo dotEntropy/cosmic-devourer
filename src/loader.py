@@ -10,15 +10,25 @@ class AssetLoader:
     def __init__(self) -> None:
         colorama.init(autoreset=True)
         self.ASSET_DIR = pathlib.Path(__file__).parent.parent / 'assets' 
+        self._init_cache()
+        self._display_loaded_cache()
+    
+    def _init_cache(self) -> None:
         self.gfx_cache = {}
         self.sfx_cache = {}
-        self.load_assets('dev', ('png', 'jpg'), self.load_image)
-        self.load_assets('gfx', ('png', 'jpg'), self.load_image)
-        self.load_assets('sfx', ('mp3', 'wav', 'ogg'), pygame.mixer.Sound)
-        print(f'{colorama.Fore.GREEN}Frames Loaded: {list(self.gfx_cache.keys())}')
-        print(f'{colorama.Fore.GREEN}SFX Loaded: {list(self.sfx_cache.keys())}')
+        self.load_cache('dev', ('png', 'jpg'), self.load_image)
+        self.load_cache('gfx', ('png', 'jpg'), self.load_image)
+        self.load_cache('sfx', ('mp3', 'wav', 'ogg'), pygame.mixer.Sound)
+    
+    def _display_loaded_cache(self) -> None:
+        gfx_cache_list = list(self.gfx_cache.keys())
+        sfx_cache_list = list(self.sfx_cache.keys())
+        gfx_cache_str = ', '.join([f'{colorama.Fore.YELLOW}{gfx_cache}' for gfx_cache in gfx_cache_list])
+        sfx_cache_str = ', '.join([f'{colorama.Fore.YELLOW}{sfx_cache}' for sfx_cache in sfx_cache_list])
+        print(f'{colorama.Fore.GREEN}GFX Loaded: {gfx_cache_str}\n')
+        print(f'{colorama.Fore.GREEN}SFX Loaded: {sfx_cache_str}\n')
 
-    def load_assets(self, folder_name: str, ext_names: tuple[str], loader: object) -> None:
+    def load_cache(self, folder_name: str, ext_names: tuple[str], loader: object) -> None:
         for file in os.listdir(self.ASSET_DIR / folder_name):
             name = self.strip_ext(file, ext_names)
             asset = loader(self.ASSET_DIR / folder_name / file)
@@ -48,6 +58,7 @@ class AssetLoader:
 
 
 pygame.init()
+os.system('cls')
 pygame.display.set_mode([DEFAULT_WIDTH, DEFAULT_HEIGHT])
 display_info = pygame.display.Info()
 GameVars.client_w = display_info.current_w

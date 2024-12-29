@@ -6,9 +6,9 @@ from src.sprites.templates import Button
 from src.constants import DEFAULT_WIDTH, DEFAULT_HEIGHT, SPRITE_SCALE
 
 
-class MainMenu(State):
+class PauseMenu(State):
     def __init__(self) -> None:
-        super().__init__('main-menu')
+        super().__init__('pause-menu')
     
     def _init_groups(self) -> None:
         self.button_group = pygame.sprite.Group()
@@ -31,8 +31,13 @@ class MainMenu(State):
                 },
             )
     
-    def switch_to_play(self):
+    def switch_to_play(self) -> None:
+        pygame.mixer.unpause()
         self.switch_state('play')
+    
+    def handle_key_tap(self, key: int) -> None:
+        if pygame.K_SPACE == key:
+            self.switch_to_play()
 
     def handle_mouse_held(self, buttons: tuple[int]) -> None:
         for sprites in self.button_group.sprites():
@@ -48,4 +53,4 @@ class MainMenu(State):
     
 
 def setup() -> None:
-    MainMenu()
+    PauseMenu()

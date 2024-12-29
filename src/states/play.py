@@ -19,6 +19,10 @@ class Play(State):
 
     def handle_key_tap(self, key: int):
         self.devourer.key_tap(key)
+        
+        if pygame.K_ESCAPE == key:
+            pygame.mixer.pause()
+            self.switch_state('pause-menu')
 
     def update(self, dt: float) -> None:
         self.segment_group.update(self.food_group)

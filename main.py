@@ -1,6 +1,8 @@
 import pygame
+
 import time
 import colorama
+
 from src.runner import StateRunner
 from src.variables import GameVars
 from src.loader import get_gfx
@@ -24,6 +26,6 @@ class Game:
             pygame.display.update()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     game = Game()
     game.run()
